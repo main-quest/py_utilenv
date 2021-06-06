@@ -1,8 +1,11 @@
 import os
 from pathlib import Path
+from elevate import elevate
 
 
 def add_or_update_env_var(key: str, val: str):
+    # show_console is needed don Windows so that you can see the stdout
+    elevate(show_console=True, graphical=False)
     if os.name == 'nt':
         if val.startswith('\''):
             val.strip('\'')
