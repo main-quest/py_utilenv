@@ -9,7 +9,7 @@ pkg_name = 'py_utilenv'
 
 setup(
     name=pkg_name,
-    version='0.0.3',
+    version='0.0.4',
     description="Utils for environment setup (mostly environment vars). " +
                 f"'Install by 'pip install --upgrade git+https://github.com/main-quest/py_utilenv.git#egg={pkg_name}'",
     url='https://github.com/main-quest/py_utilenv.git',
