@@ -2,10 +2,21 @@ import os
 from pathlib import Path
 
 
-def add_or_update_env_var(key, val):
+def add_or_update_env_var(key: str, val: str):
     if os.name == 'nt':
-        os.system(f'SETX {key}="true"')
-        os.system(f'SET {key}="true"')
+        if val.startswith('\''):
+            val.strip('\'')
+
+        if not val.startswith('"'):
+            val = f'"{val}"'
+
+        # Machine-wide
+        os.system(f'SETX /M {key} {val}')
+        # User-wide
+        os.system(f'SETX {key} {val}')
+        # Session-wide
+        os.system(f'SET {key}={val}')
+
     elif os.name == 'posix':
         env_file_sys = '/etc/environment'
         env_file_user = str(Path.home()) + '/.bashrc'
@@ -29,6 +40,7 @@ def add_or_update_env_var(key, val):
             f.writelines(env_lines_sys)
         with open(env_file_user, 'w') as f:
             f.writelines(env_lines_user)
+
     else:
         raise Exception('Case not handled: os.name=' + os.name)
 
